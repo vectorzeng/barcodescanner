@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BarcodeScannerView">
-        <attr name="shouldScaleToFill" format="boolean" />
-        <attr name="laserEnabled" format="boolean" />
-        <attr name="laserColor" format="color" />
-        <attr name="borderColor" format="color" />
-        <attr name="maskColor" format="color" />
-        <attr name="borderWidth" format="dimension" />
-        <attr name="borderLength" format="dimension" />
-        <attr name="roundedCorner" format="boolean" />
-        <attr name="cornerRadius" format="dimension" />
-        <attr name="squaredFinder" format="boolean" />
-        <attr name="borderAlpha" format="float" />
-        <attr name="finderOffset" format="dimension" />
+        <attr name="bsvShouldScaleToFill" format="boolean" />
+        <attr name="bsvLaserEnabled" format="boolean" />
+        <attr name="bsvLaserColor" format="color" />
+        <attr name="bsvBorderColor" format="color" />
+        <attr name="bsvMaskColor" format="color" />
+        <attr name="bsvBorderWidth" format="dimension" />
+        <attr name="bsvBorderLength" format="dimension" />
+        <attr name="bsvRoundedCorner" format="boolean" />
+        <attr name="bsvCornerRadius" format="dimension" />
+        <attr name="bsvSquaredFinder" format="boolean" />
+        <attr name="bsvBorderAlpha" format="float" />
+        <attr name="bsvFinderOffset" format="dimension" />
     </declare-styleable>
 </resources>

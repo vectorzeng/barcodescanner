@@ -1,14 +1,12 @@
 package me.dm7.barcodescanner.core;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -52,19 +50,19 @@ public abstract class BarcodeScannerView extends FrameLayout implements Camera.P
                 0, 0);
 
         try {
-            setShouldScaleToFill(a.getBoolean(R.styleable.BarcodeScannerView_shouldScaleToFill, true));
-            mIsLaserEnabled = a.getBoolean(R.styleable.BarcodeScannerView_laserEnabled, mIsLaserEnabled);
-            mLaserColor = a.getColor(R.styleable.BarcodeScannerView_laserColor, mLaserColor);
-            mBorderColor = a.getColor(R.styleable.BarcodeScannerView_borderColor, mBorderColor);
-            mMaskColor = a.getColor(R.styleable.BarcodeScannerView_maskColor, mMaskColor);
-            mBorderWidth = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_borderWidth, mBorderWidth);
-            mBorderLength = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_borderLength, mBorderLength);
+            setShouldScaleToFill(a.getBoolean(R.styleable.BarcodeScannerView_bsvShouldScaleToFill, true));
+            mIsLaserEnabled = a.getBoolean(R.styleable.BarcodeScannerView_bsvLaserEnabled, mIsLaserEnabled);
+            mLaserColor = a.getColor(R.styleable.BarcodeScannerView_bsvLaserColor, mLaserColor);
+            mBorderColor = a.getColor(R.styleable.BarcodeScannerView_bsvBorderColor, mBorderColor);
+            mMaskColor = a.getColor(R.styleable.BarcodeScannerView_bsvMaskColor, mMaskColor);
+            mBorderWidth = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_bsvBorderWidth, mBorderWidth);
+            mBorderLength = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_bsvBorderLength, mBorderLength);
 
-            mRoundedCorner = a.getBoolean(R.styleable.BarcodeScannerView_roundedCorner, mRoundedCorner);
-            mCornerRadius = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_cornerRadius, mCornerRadius);
-            mSquaredFinder = a.getBoolean(R.styleable.BarcodeScannerView_squaredFinder, mSquaredFinder);
-            mBorderAlpha = a.getFloat(R.styleable.BarcodeScannerView_borderAlpha, mBorderAlpha);
-            mViewFinderOffset = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_finderOffset, mViewFinderOffset);
+            mRoundedCorner = a.getBoolean(R.styleable.BarcodeScannerView_bsvRoundedCorner, mRoundedCorner);
+            mCornerRadius = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_bsvCornerRadius, mCornerRadius);
+            mSquaredFinder = a.getBoolean(R.styleable.BarcodeScannerView_bsvSquaredFinder, mSquaredFinder);
+            mBorderAlpha = a.getFloat(R.styleable.BarcodeScannerView_bsvBorderAlpha, mBorderAlpha);
+            mViewFinderOffset = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_bsvFinderOffset, mViewFinderOffset);
         } finally {
             a.recycle();
         }
