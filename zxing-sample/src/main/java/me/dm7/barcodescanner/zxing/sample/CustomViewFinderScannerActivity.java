@@ -1,6 +1,8 @@
 package me.dm7.barcodescanner.zxing.sample;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +18,7 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.core.IViewFinder;
 import me.dm7.barcodescanner.core.ViewFinderView;
+import me.dm7.barcodescanner.zxing.finderview.UpDownLaserFinderView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class CustomViewFinderScannerActivity extends BaseScannerActivity implements ZXingScannerView.ResultHandler {
@@ -26,12 +29,15 @@ public class CustomViewFinderScannerActivity extends BaseScannerActivity impleme
         super.onCreate(state);
         setContentView(R.layout.activity_custom_view_finder_scanner);
         setupToolbar();
-
+        final Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.scanner_line);
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this) {
             @Override
             protected IViewFinder createViewFinderView(Context context) {
-                return new CustomViewFinderView(context);
+                UpDownLaserFinderView view = new UpDownLaserFinderView(context);
+                view.setLaserBmp(bmp);
+                view.setLaserEnabled(true);
+                return view;
             }
         };
         contentFrame.addView(mScannerView);
