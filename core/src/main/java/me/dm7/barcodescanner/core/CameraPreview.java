@@ -21,6 +21,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private static final String TAG = "CameraPreview";
 
     private CameraWrapper mCameraWrapper;
+
     private Handler mAutoFocusHandler;
     private boolean mPreviewing = true;
     private boolean mAutoFocus = true;
