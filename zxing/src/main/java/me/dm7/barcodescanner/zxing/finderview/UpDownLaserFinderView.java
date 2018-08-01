@@ -42,20 +42,26 @@ public class UpDownLaserFinderView extends ViewFinderView {
 
     private int heightTargetBmp = 0;
     private Rect targetRect = null;
-    private float speed;
+    private float speed = 0f;
+    private int dynamicBottom = 0;
 
-    public void computeAnimation(Bitmap bmp, Rect framingRect){
-        if(targetRect == null) {
-            heightTargetBmp = (int) (bmp.getHeight() * ((float) framingRect.width() / bmp.getWidth()));
-            int b = framingRect.top + heightTargetBmp;
-            targetRect = new Rect(framingRect.left, framingRect.top, framingRect.right, b);
-            speed = (framingRect.height() - targetRect.height())/ DURATION_ONCE_LASER;
+    public void initAnimFactor(Rect framingRect){
+        if (heightTargetBmp == 0) {
+            heightTargetBmp = (int) (laserBmp.getHeight() * ((float) getFramingRect().width() / laserBmp.getWidth()));
+        }
+
+        if (targetRect == null){
+            targetRect = new Rect(framingRect.left, framingRect.top, framingRect.right,0);
+        }
+
+        if (speed == 0f){
+            speed = (framingRect.height() - heightTargetBmp)/ DURATION_ONCE_LASER;
         }
     }
 
 
     private float dy = 0;
-    private long lastTime;
+    private long lastTime = 0L;
     @Override
     public void drawLaser(Canvas canvas) {
         Rect framingRect = getFramingRect();
@@ -66,7 +72,8 @@ public class UpDownLaserFinderView extends ViewFinderView {
         if(bmp == null){
             return;
         }
-        computeAnimation(bmp, framingRect);
+        initAnimFactor(framingRect);
+
         if(targetRect == null || speed < 0){
             Log.e(TG, "drawLaser error " + targetRect + ", " + speed);
             return;
@@ -74,12 +81,28 @@ public class UpDownLaserFinderView extends ViewFinderView {
 
         long currentTime = System.currentTimeMillis();
         if(lastTime > 0){
-            dy += speed*(currentTime - lastTime) ;
+            float yOffset = speed * (currentTime - lastTime);
+            dy += yOffset;
+
+            /**
+             * 动态改变targetRect高度，实现第一帧从扫描框顶部开始动画效果
+             */
+            if(targetRect.height() <= heightTargetBmp) {
+                dynamicBottom += yOffset;
+                targetRect.set(framingRect.left, framingRect.top, framingRect.right, framingRect.top + dynamicBottom);
+                Log.e(TG, "Dynamic Bottom : " + dynamicBottom);
+                Log.e(TG, "Tar Rect H : " + targetRect.height());
+            }
         }
         lastTime = currentTime;
-        if(dy > (framingRect.height() - targetRect.height())){
+
+        if(dy > (framingRect.height() - heightTargetBmp)){
             dy = 0;
+            dynamicBottom = 0;
+            targetRect.setEmpty();
         }
+
+        Log.e(TG, "Anim Y : " + dy);
 
         canvas.save();
         canvas.translate(0,dy);
