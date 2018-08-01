@@ -82,16 +82,15 @@ public class UpDownLaserFinderView extends ViewFinderView {
         long currentTime = System.currentTimeMillis();
         if(lastTime > 0){
             float yOffset = speed * (currentTime - lastTime);
-            dy += yOffset;
-
             /**
              * 动态改变targetRect高度，实现第一帧从扫描框顶部开始动画效果
+             * 高度确定后再进行移动扫码线
              */
             if(targetRect.height() <= heightTargetBmp) {
                 dynamicBottom += yOffset;
                 targetRect.set(framingRect.left, framingRect.top, framingRect.right, framingRect.top + dynamicBottom);
-                Log.e(TG, "Dynamic Bottom : " + dynamicBottom);
-                Log.e(TG, "Tar Rect H : " + targetRect.height());
+            } else {
+                dy += yOffset;
             }
         }
         lastTime = currentTime;
@@ -101,7 +100,6 @@ public class UpDownLaserFinderView extends ViewFinderView {
             dynamicBottom = 0;
             targetRect.setEmpty();
         }
-
         Log.e(TG, "Anim Y : " + dy);
 
         canvas.save();
