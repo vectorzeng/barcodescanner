@@ -48,10 +48,9 @@ public class UpDownLaserFinderView extends ViewFinderView {
     public void computeAnimation(Bitmap bmp, Rect framingRect){
         if(targetRect == null) {
             heightTargetBmp = (int) (bmp.getHeight() * ((float) framingRect.width() / bmp.getWidth()));
-            int b = framingRect.top + heightTargetBmp;
-            targetRect = new Rect(framingRect.left + 2, framingRect.top, framingRect.right + 2, b);
+            int top = framingRect.top - heightTargetBmp;
+            targetRect = new Rect(framingRect.left + 2, top, framingRect.right + 2, framingRect.top);
             speed = (framingRect.height() - targetRect.height())/ DURATION_ONCE_LASER;
-            dy = -heightTargetBmp;
         }
     }
 
@@ -79,8 +78,8 @@ public class UpDownLaserFinderView extends ViewFinderView {
             dy += speed*(currentTime - lastTime) ;
         }
         lastTime = currentTime;
-        if(dy > (framingRect.height() - targetRect.height())){
-            dy = -heightTargetBmp;
+        if(dy > framingRect.height()){
+            dy = 0;
         }
 
         canvas.clipRect(framingRect, Region.Op.INTERSECT);
