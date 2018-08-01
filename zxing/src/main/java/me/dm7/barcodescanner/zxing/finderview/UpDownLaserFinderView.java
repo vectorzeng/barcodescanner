@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Region;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -18,7 +19,7 @@ import me.dm7.barcodescanner.core.ViewFinderView;
 public class UpDownLaserFinderView extends ViewFinderView {
     private static final String TG = "UpDownLaserFinderView";
     //每次draw的时间间隔
-    private static final long ANIMATION_DELAY = 20;
+    private long animDelay = 10;
     private static float DURATION_ONCE_LASER = 2000.0f; //激光一次扫苗动画需要的时长
     private static final int POINT_SIZE = 10;
 
@@ -48,8 +49,9 @@ public class UpDownLaserFinderView extends ViewFinderView {
         if(targetRect == null) {
             heightTargetBmp = (int) (bmp.getHeight() * ((float) framingRect.width() / bmp.getWidth()));
             int b = framingRect.top + heightTargetBmp;
-            targetRect = new Rect(framingRect.left, framingRect.top, framingRect.right, b);
+            targetRect = new Rect(framingRect.left + 2, framingRect.top, framingRect.right + 2, b);
             speed = (framingRect.height() - targetRect.height())/ DURATION_ONCE_LASER;
+            dy = -heightTargetBmp;
         }
     }
 
@@ -78,15 +80,16 @@ public class UpDownLaserFinderView extends ViewFinderView {
         }
         lastTime = currentTime;
         if(dy > (framingRect.height() - targetRect.height())){
-            dy = 0;
+            dy = -heightTargetBmp;
         }
 
+        canvas.clipRect(framingRect, Region.Op.INTERSECT);
         canvas.save();
         canvas.translate(0,dy);
         canvas.drawBitmap(bmp, null, targetRect, PAINT);
         canvas.restore();
 
-        postInvalidateDelayed(ANIMATION_DELAY,
+        postInvalidateDelayed(animDelay,
                 framingRect.left - POINT_SIZE,
                 framingRect.top - POINT_SIZE,
                 framingRect.right + POINT_SIZE,
@@ -96,6 +99,10 @@ public class UpDownLaserFinderView extends ViewFinderView {
     private Bitmap laserBmp;
     public Bitmap getLaserBmp(){
         return laserBmp;
+    }
+
+    public void setDrawInterval(long interval){
+        animDelay = interval;
     }
 
     /**
